@@ -1,6 +1,6 @@
 ##
 # 2021 Jimmy White. Please feel free to re-use, modify etc for non-commercial use
-# Script to help create twityterbot images.js file
+# Script to help create twitterbot images.js file
 # thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
 # Things this does:
 # Optionally Resizes images to 1920 horizontally or 1080 vertically, depending on image orientation. Retains aspect ratio, original files unchanged
