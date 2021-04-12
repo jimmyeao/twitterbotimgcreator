@@ -1,5 +1,14 @@
+$lb_Item_selected = {
+
+    $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
+    
+    $pb_main.image = [System.Drawing.Image]::Fromfile($selected)
+    $Form1.Refresh()
+    write-host  $selected
+}
 # This does NOTHING yet accept load the form
 $btn_gen = {
+   
 }
 $app_toall = {
 }
@@ -12,6 +21,10 @@ $sel_dest = {
 $sel_source = {
     $result = Find-Folders
     $tb_source.text = $result
+    $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
+    foreach($photo in $photos){
+        $lb_loadedimages.items.add($photo)
+    }
 }
 $save_details = {
 

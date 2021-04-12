@@ -68,6 +68,7 @@ $btn_dest.add_Click($sel_dest)
 $pb_main.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]508,[System.Int32]27))
 $pb_main.Name = [System.String]'pb_main'
 $pb_main.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]397,[System.Int32]193))
+$pb_main.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
 $pb_main.TabIndex = [System.Int32]2
 $pb_main.TabStop = $false
 #
@@ -79,6 +80,7 @@ $lb_loadedimages.Location = (New-Object -TypeName System.Drawing.Point -Argument
 $lb_loadedimages.Name = [System.String]'lb_loadedimages'
 $lb_loadedimages.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]398,[System.Int32]259))
 $lb_loadedimages.TabIndex = [System.Int32]3
+$lb_loadedimages.add_SelectedIndexChanged($lb_Item_selected)
 #
 #tb_hashtags
 #
