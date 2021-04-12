@@ -2,6 +2,14 @@
 # 2021 Jimmy White. Please feel free to re-use, modify etc for non-commercial use
 # Script to help create twityterbot images.js file
 # thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
+# Things this does:
+# Optionally Resizes images to 1920 horizontally or 1080 vertically, depending on image orientation. Retains aspect ratio, original files unchanged
+# Renames files to remove spaces (spaces are BAD in filenames ;) ) Original files (and resizes) are renamed
+#asks for hash tags (applied to all images)
+#asks for source info (applied to all images)
+# parses the folder to generate an image.js file which is saved in a UNIX friendly format.
+
+
 ##
 using namespace System.Drawing
 function Find-Folders {
