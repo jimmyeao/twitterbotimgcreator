@@ -7,6 +7,7 @@ $lb_Item_selected = {
     write-host  $selected
 }
 # This does NOTHING yet accept load the form
+cls
 $btn_gen = {
    
 }
@@ -32,39 +33,28 @@ $save_details = {
     Filter = 'Documents (*.xml)|*.xml'
     }
     $null = $FileBrowser.ShowDialog()
-    if (Test-Path $FileBrowser.filename -Pathtype Leaf){
-        $result = [System.Windows.Forms.MessageBox]::Show('Replace current settings, Are you sure?' , "Confirm" , 4)
-        if ($result -eq 'Yes'){
-            [xml]$myXML = Get-Content $FileBrowser.filename
-            $myXML.settings.hashtags = $tb_hashtags.text
-            $myXML.settings.text = $rt_text.ToString()
-            $saveconfigfile | Export-Clixml -Path $filebrowser.filename
-            $myxml.Save($filebrowser.filename)
-        }
-        else {
+   
+            $XmlWriter = New-Object System.Xml.XmlTextWriter($filebrowser.filename,$null)
+            $XmlWriter.Formatting="Indented"
+            $XmlWriter.Indentation = 1
+            $XmlWriter.IndentChar ="`t"
+            $XmlWriter.WriteStartElement("Settings")
+            $XmlWriter.WriteElementString("Hashtags",$tb_hashtags.text)
+            $XmlWriter.WriteElementString("text",$rt_text.text)
+            $XmlWriter.WriteEndElement()
+            #$xmlWriter.WriteEndDocument()
+            $XmlWriter.Flush()
+            $XmlWriter.Close()
+            write-host settings saved -ForegroundColor Cyan
             
-                $XmlWriter = New-Object System.Xml.XmlTextWriter($filebrowser.filename,$null)
-                $XmlWriter.Formatting="Indented"
-                $XmlWriter.Indentation = 1
-                $XmlWriter.IndentChar ="`t"
-                $XmlWriter.WriteStartElement("Settings")
-                $XmlWriter.WriteElementString("Hashtags",$tb_hashtags.text)
-                $XmlWriter.WriteElementString("text",$rt_text.ToString())
-                $XmlWriter.WriteEndElement()
-                $XmlWriter.Flush()
-                $XmlWriter.Close()
-                $myXML.Save($filebrowser.filename)
-            }
-        }
-
-
-
-    
-    
 }
+        
+
+ 
 $load_details = {
+    $curpath = get-location
     $filebrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
-        InitialDirectory = [Environment]::GetFolderPath('Desktop') 
+        InitialDirectory = $curpath
         Filter = 'Documents (*.xml)|*.xml'
     }
     $null = $filebrowser.ShowDialog()
