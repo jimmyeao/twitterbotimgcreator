@@ -28,12 +28,10 @@ function Find-Folders {
         $loop = $false
         } else
         {
-            $res = [System.Windows.Forms.MessageBox]::Show("You clicked Cancel. Would you like to try again or exit?", "Select a location", [System.Windows.Forms.MessageBoxButtons]::RetryCancel)
-            if($res -eq "Cancel")
-            {
+           
                 #Ends script
-                return
-            }
+                Exit
+           
         }
     }
     $browse.SelectedPath
