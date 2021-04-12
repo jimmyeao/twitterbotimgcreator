@@ -41,6 +41,8 @@ $save_details = {
             $XmlWriter.WriteStartElement("Settings")
             $XmlWriter.WriteElementString("Hashtags",$tb_hashtags.text)
             $XmlWriter.WriteElementString("text",$rt_text.text)
+            $XmlWriter.WriteElementString("source",$tb_source.text)
+            $XmlWriter.WriteElementString("dest",$tb_dest.text)
             $XmlWriter.WriteEndElement()
             #$xmlWriter.WriteEndDocument()
             $XmlWriter.Flush()
@@ -62,8 +64,17 @@ $load_details = {
     $tb_hashtags.text=$ConfigFile.settings.Hashtags
     $rt_text.Clear()
     $rt_text.AppendText($ConfigFile.settings.text)
+    $tb_source.text = $ConfigFile.settings.source
+    $tb_dest.text = $ConfigFile.settings.dest
     $form1.Refresh()
-}
+    if($tb_source.text){
+        $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
+        foreach($photo in $photos){
+            $lb_loadedimages.items.add($photo)
+        }
+    }
+
+    }
 function Find-Folders {
     [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
     [System.Windows.Forms.Application]::EnableVisualStyles()
