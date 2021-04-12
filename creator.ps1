@@ -90,11 +90,12 @@ if($resizethem -eq "y"){
     }
 
     $newpath = $result+"\"+$outpath.name+"\"
-    Get-ChildItem -path $newpath -Filter "*'*" -Recurse | Rename-Item -NewName {$_.Name.Replace("'","")}
+    Get-ChildItem -path $newpath | Rename-Item -NewName { $_.Name -replace ' ','_' }
     $list = Get-ChildItem -Path $newpath -Recurse | `
             Where-Object {$_.FullName -match '_resized.jpg' }
     }
     else {
+        Get-ChildItem -path $result | Rename-Item -NewName { $_.Name -replace ' ','_' }
         $list = Get-ChildItem -Path $result -Recurse | `
             Where-Object {$_.Extension -eq '.jpg'}
     }
@@ -130,7 +131,4 @@ $line += "module.exports = images;"
 $line | Out-File $path -Encoding UTF8
 
 write-host "all done - copy file to your images folder"
-write-host "Then you may need to run this command to remove extra chars from filenames if you have single quotes on them after upload"
-write-host "cd images" -ForegroundColor cyan
-$msg = 'for file in *.jpg; do dest="${file//[[:space:]]/.}" && mv -i "$file" "${dest//[^[:alnum:]._-]/}"; done'
-write-host $msg -ForegroundColor cyan
+write-host "and copy your images.js file" -ForegroundColor green
