@@ -31,6 +31,7 @@ function Find-Folders {
     $browse.SelectedPath
     $browse.Dispose()
 } 
+
 function Resize-images{
 Param ( [Parameter(Mandatory=$True)] [ValidateNotNull()] $imageSource,[Parameter(Mandatory=$True)] [ValidateNotNull()] $imageTarget,[Parameter(Mandatory=$true)][ValidateNotNull()] $quality )
 
@@ -85,9 +86,11 @@ if($resizethem -eq "y"){
     Get-ChildItem $result -Recurse -Include *.jpg | Foreach-Object{
         $newName = $result+"\"+$outpath.name+"\"+$_.Name.Substring(0, $_.Name.Length - 4) + "_resized.jpg"
         Resize-images -imagesource $_.FullName -imagetarget $newName -quality 75
+        
     }
 
     $newpath = $result+"\"+$outpath.name+"\"
+    Get-ChildItem -path $newpath -Filter "*'*" -Recurse | Rename-Item -NewName {$_.Name.Replace("'","")}
     $list = Get-ChildItem -Path $newpath -Recurse | `
             Where-Object {$_.FullName -match '_resized.jpg' }
     }
@@ -123,4 +126,11 @@ foreach($image in $list)
 }
 $line += "];"
 $line += "module.exports = images;"
-$line | Out-File $path
+
+$line | Out-File $path -Encoding UTF8
+
+write-host "all done - copy file to your images folder"
+write-host "Then you may need to run this command to remove extra chars from filenames if you have single quotes on them after upload"
+write-host "cd images" -ForegroundColor cyan
+$msg = 'for file in *.jpg; do dest="${file//[[:space:]]/.}" && mv -i "$file" "${dest//[^[:alnum:]._-]/}"; done'
+write-host $msg -ForegroundColor cyan
