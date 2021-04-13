@@ -4,9 +4,11 @@ $lb_Item_selected = {
     $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
     
     $pb_main.image = [System.Drawing.Image]::Fromfile($selected)
-    if($global:photodetails | where name -like $lb_loadedimages.selecteditem){
-        $tb_hashtags.text = ($global:photodetails | where name -like $lb_loadedimages.selecteditem).hashtags
-        $rt_text.Text = ($global:photodetails | where name -like $lb_loadedimages.selecteditem).text
+    if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
+        $tb_hashtags.text=""
+        $rt_text.Clear()
+        $tb_hashtags.text = ($global:photodetails | Where-Object name -eq $lb_loadedimages.selecteditem).hashtags
+        $rt_text.Text = ($global:photodetails | Where-Object name -eq $lb_loadedimages.selecteditem).text
     }
     $Form1.Refresh()
     write-host  $selected
@@ -121,15 +123,17 @@ $load_details = {
         foreach($photo in $photos){
             $lb_loadedimages.items.add($photo)
             $global:photodetails.clear()
-    foreach($picture in $lb_loadedimages.items){
-            $item = New-Object PSObject
-            $item | Add-Member -type NoteProperty -name "Name" -value $picture
-            $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
-            $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
-            $global:photodetails += $item
-            }
         }
     }
+    #foreach($picture in $lb_loadedimages.items){
+    #        $item = New-Object PSObject
+    #        $item | Add-Member -type NoteProperty -name "Name" -value $picture
+    #        $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
+    #        $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
+    #        $global:photodetails += $item
+    #        }
+    
+    
     $global:photodetails.clear()
     $piccy=@()
     $piccy = $configfile.settings.photos
@@ -143,7 +147,7 @@ $load_details = {
         
     }
 
-    }
+}
 function Find-Folders {
     [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
     [System.Windows.Forms.Application]::EnableVisualStyles()
@@ -186,7 +190,7 @@ function Resize-images{
     $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
     $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter($myEncoder, $quality)
     # get codec
-    $myImageCodecInfo = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders()|where {$_.MimeType -eq 'image/jpeg'}
+    $myImageCodecInfo = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders()|Where-Object {$_.MimeType -eq 'image/jpeg'}
     
     #compute the final ratio to use
     $ratioX = $canvasWidth / $bmp.Width;
