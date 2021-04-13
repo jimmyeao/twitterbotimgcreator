@@ -1,7 +1,7 @@
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
-
-Jimmy White 2021 - Licenced for Non-Commercial use only.
+thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
+Jimmy White 2021
 
 #>
 $global:photodetails = @()
@@ -196,13 +196,7 @@ $load_details = {
             $global:photodetails.clear()
         }
     }
-    #foreach($picture in $lb_loadedimages.items){
-    #        $item = New-Object PSObject
-    #        $item | Add-Member -type NoteProperty -name "Name" -value $picture
-    #        $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
-    #        $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
-    #        $global:photodetails += $item
-    #        }
+
     
     
     $global:photodetails.clear()
