@@ -58,9 +58,9 @@ $btn_gen = {
         #now we cycle through..
         foreach ($item in $global:photodetails) {
             $realname = $item.name -replace " ","_"
-            $longtext = $item.text+"`n"+$item.hashtags
+            $longtext = $item.text+" "+$item.hashtags
             $line += "  {"
-            $line += "      file: '$realname,"
+            $line += "      file: '$realname',"
             $line += "      source: '$longtext'"
             if($strt -ne $numimages){
                 $line += "  },"
