@@ -25,7 +25,6 @@ $lb_Item_selected = {
     $Form1.Refresh()
     write-host  $selected
 }
-
 $btn_clearme = {
     $ButtonType = [System.Windows.MessageBoxButton]::YesNo
     $MessageIcon = [System.Windows.MessageBoxImage]::Error
@@ -41,8 +40,6 @@ $btn_clearme = {
             $pb_main.Image=$null
         }
 }
-
-
 $btn_gen = {
    #lets check we have a valid path
    #first part of images.js
@@ -191,9 +188,6 @@ $save_details = {
             write-host settings saved -ForegroundColor Cyan
             
 }
-        
-
- 
 $load_details = {
     $ans="yes"
     if($tb_source.text -ne ""){
