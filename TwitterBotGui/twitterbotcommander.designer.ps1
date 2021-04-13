@@ -12,11 +12,11 @@ $Form1 = New-Object -TypeName System.Windows.Forms.Form
 [System.Windows.Forms.Button]$btn_generate = $null
 [System.Windows.Forms.StatusStrip]$StatusStrip1 = $null
 [System.Windows.Forms.ToolStripProgressBar]$ToolStripProgressBar1 = $null
-[System.Windows.Forms.CheckBox]$cb_resize = $null
 [System.Windows.Forms.TextBox]$tb_source = $null
 [System.Windows.Forms.TextBox]$tb_dest = $null
 [System.Windows.Forms.Button]$btn_save = $null
 [System.Windows.Forms.Button]$btn_load = $null
+[System.Windows.Forms.Label]$lb_status = $null
 function InitializeComponent
 {
 $btn_source = (New-Object -TypeName System.Windows.Forms.Button)
@@ -32,11 +32,11 @@ $btn_applytoall = (New-Object -TypeName System.Windows.Forms.Button)
 $btn_generate = (New-Object -TypeName System.Windows.Forms.Button)
 $StatusStrip1 = (New-Object -TypeName System.Windows.Forms.StatusStrip)
 $ToolStripProgressBar1 = (New-Object -TypeName System.Windows.Forms.ToolStripProgressBar)
-$cb_resize = (New-Object -TypeName System.Windows.Forms.CheckBox)
 $tb_source = (New-Object -TypeName System.Windows.Forms.TextBox)
 $tb_dest = (New-Object -TypeName System.Windows.Forms.TextBox)
 $btn_save = (New-Object -TypeName System.Windows.Forms.Button)
 $btn_load = (New-Object -TypeName System.Windows.Forms.Button)
+$lb_status = (New-Object -TypeName System.Windows.Forms.Label)
 ([System.ComponentModel.ISupportInitialize]$pb_main).BeginInit()
 $StatusStrip1.SuspendLayout()
 $Form1.SuspendLayout()
@@ -151,7 +151,7 @@ $btn_generate.add_Click($btn_gen)
 #StatusStrip1
 #
 $StatusStrip1.Items.AddRange([System.Windows.Forms.ToolStripItem[]]@($ToolStripProgressBar1))
-$StatusStrip1.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]518))
+$StatusStrip1.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]547))
 $StatusStrip1.Name = [System.String]'StatusStrip1'
 $StatusStrip1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]917,[System.Int32]22))
 $StatusStrip1.TabIndex = [System.Int32]11
@@ -160,17 +160,7 @@ $StatusStrip1.Text = [System.String]'StatusStrip1'
 #ToolStripProgressBar1
 #
 $ToolStripProgressBar1.Name = [System.String]'ToolStripProgressBar1'
-$ToolStripProgressBar1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]100,[System.Int32]16))
-#
-#cb_resize
-#
-$cb_resize.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]209,[System.Int32]470))
-$cb_resize.Name = [System.String]'cb_resize'
-$cb_resize.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]104,[System.Int32]24))
-$cb_resize.TabIndex = [System.Int32]12
-$cb_resize.Text = [System.String]'Resize?'
-$cb_resize.UseCompatibleTextRendering = $true
-$cb_resize.UseVisualStyleBackColor = $true
+$ToolStripProgressBar1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]900,[System.Int32]16))
 #
 #tb_source
 #
@@ -188,7 +178,7 @@ $tb_dest.TabIndex = [System.Int32]14
 #
 #btn_save
 #
-$btn_save.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]294,[System.Int32]470))
+$btn_save.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]196,[System.Int32]470))
 $btn_save.Name = [System.String]'btn_save'
 $btn_save.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]145,[System.Int32]23))
 $btn_save.TabIndex = [System.Int32]15
@@ -199,7 +189,7 @@ $btn_save.add_Click($save_details)
 #
 #btn_load
 #
-$btn_load.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]294,[System.Int32]492))
+$btn_load.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]347,[System.Int32]470))
 $btn_load.Name = [System.String]'btn_load'
 $btn_load.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]145,[System.Int32]23))
 $btn_load.TabIndex = [System.Int32]16
@@ -208,14 +198,23 @@ $btn_load.UseCompatibleTextRendering = $true
 $btn_load.UseVisualStyleBackColor = $true
 $btn_load.add_Click($load_details)
 #
+#lb_status
+#
+$lb_status.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]524))
+$lb_status.Name = [System.String]'lb_status'
+$lb_status.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]341,[System.Int32]23))
+$lb_status.TabIndex = [System.Int32]17
+$lb_status.Text = [System.String]'Ready'
+$lb_status.UseCompatibleTextRendering = $true
+#
 #Form1
 #
-$Form1.ClientSize = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]917,[System.Int32]540))
+$Form1.ClientSize = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]917,[System.Int32]569))
+$Form1.Controls.Add($lb_status)
 $Form1.Controls.Add($btn_load)
 $Form1.Controls.Add($btn_save)
 $Form1.Controls.Add($tb_dest)
 $Form1.Controls.Add($tb_source)
-$Form1.Controls.Add($cb_resize)
 $Form1.Controls.Add($StatusStrip1)
 $Form1.Controls.Add($btn_generate)
 $Form1.Controls.Add($btn_applytoall)
@@ -248,10 +247,10 @@ Add-Member -InputObject $Form1 -Name btn_applytoall -Value $btn_applytoall -Memb
 Add-Member -InputObject $Form1 -Name btn_generate -Value $btn_generate -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name StatusStrip1 -Value $StatusStrip1 -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name ToolStripProgressBar1 -Value $ToolStripProgressBar1 -MemberType NoteProperty
-Add-Member -InputObject $Form1 -Name cb_resize -Value $cb_resize -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name tb_source -Value $tb_source -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name tb_dest -Value $tb_dest -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name btn_save -Value $btn_save -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name btn_load -Value $btn_load -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name lb_status -Value $lb_status -MemberType NoteProperty
 }
 . InitializeComponent

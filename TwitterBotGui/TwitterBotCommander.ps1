@@ -27,17 +27,41 @@ $btn_gen = {
    #lets check we have a valid path
    #first part of images.js
    
-   if(test-path $tb_dest.text -eq $true){
+   if((test-path $tb_dest.text) -eq $true){
         #we have a valid path, we continue...
+        #Lets move and rename the files...
+       ################################################################### 
+       $max = $global:photodetails.count
+       $counter = 1
+        $lb_status.text = "Resizing images..."
+        $form1.refresh()
+            $outpath = $tb_dest.text
+            Get-ChildItem $tb_source.text -Recurse -Include *.jpg | Foreach-Object{
+                $percent = $counter * 100 / $max
+                $ToolStripProgressBar1.value = $percent
+                $newName = $outpath+"\"+$_.Name.Substring(0, $_.Name.Length - 4) +".jpg"
+                Resize-images -imagesource $_.FullName -imagetarget $newName -quality 75
+                $counter++
+                }
+            $newpath = $outpath
+            Get-ChildItem -path $newpath | Rename-Item -NewName { $_.Name -replace ' ','_' }
+            $list = Get-ChildItem -Path $newpath -Recurse | `
+                    Where-Object {$_.FullName -match '_resized.jpg' }
+
+        ###################################################################
+        $ToolStripProgressBar1.value = 0
+        $lb_status.text = "Generating images.js..."
         $line=@()
         $line += "const images = ["
         $numimages = $photodetails.count
         $strt = 1
         #now we cycle through..
-        foreach ($item in $photodetails) {
+        foreach ($item in $global:photodetails) {
+            $realname = $item.name -replace " ","_"
+            $longtext = $item.text+"`n"+$item.hashtags
             $line += "  {"
-            $line += "      file: '$image',"
-            $line += "      source: '$htags $sourcecredit'"
+            $line += "      file: '$realname,"
+            $line += "      source: '$longtext'"
             if($strt -ne $numimages){
                 $line += "  },"
             }else {
@@ -47,8 +71,9 @@ $btn_gen = {
         }
         $line += "];"
         $line += "module.exports = images;"
-
-        $line | Out-File $tb_dest.text -Encoding UTF8
+        $ouputfile = $tb_dest.text+"\images.js"
+        $line | Out-File $ouputfile -Encoding UTF8
+        $lb_status.text = "All Done!..."
    }
    else {
        return
@@ -63,6 +88,8 @@ $app_toall = {
         $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
         $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
         $global:photodetails += $item
+        $lb_status.text = "Applied to all!..."
+        $form1.refresh()
     }
     
 }
@@ -70,15 +97,25 @@ $app_to1 = {
         if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
             $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.hashtags = $tb_hashtags.Text}
             $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.text = $rt_text.text}
-            $global:photodetails | out-gridview
+            $lb_status.text = "Applied to " + $lb_loadedimages.selecteditem + "!..."
+            $form1.refresh()
             }
             else{
 
         }
 }
 $sel_dest = {
+    if($tb_source.text -eq ""){
+        [System.Windows.MessageBox]::Show('Please choose a source folder first','Output Folder Error','OK','Error')
+        $tb_dest.text=""
+        return
+    }
     $result = Find-Folders
     $tb_dest.text = $result
+    if($tb_dest.text -eq $tb_source.text){
+        [System.Windows.MessageBox]::Show('Output folder cannot be the same as the input folder!','Output Folder Error','OK','Error')
+        $tb_dest.text=""
+    }
 }
 $sel_source = {
     $result = Find-Folders
