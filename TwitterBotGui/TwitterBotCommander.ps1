@@ -43,10 +43,10 @@ $btn_gen = {
                 Resize-images -imagesource $_.FullName -imagetarget $newName -quality 75
                 $counter++
                 }
+            #now rename them to remove spaces. Spaces are bad!    
             $newpath = $outpath
             Get-ChildItem -path $newpath | Rename-Item -NewName { $_.Name -replace ' ','_' }
-            $list = Get-ChildItem -Path $newpath -Recurse | `
-                    Where-Object {$_.FullName -match '_resized.jpg' }
+            $list = Get-ChildItem -Path $newpath -Recurse | Where-Object {$_.FullName -like '.jpg' }
 
         ###################################################################
         $ToolStripProgressBar1.value = 0
