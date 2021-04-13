@@ -1,4 +1,4 @@
-# twitterbotimgcreator
+#twitterbotimgcreator
 Script for creating images.js for twitterbot
 
 This script will prompt you for a directory with your images in, then prompt you for hashtags and any source attribution you want to use.

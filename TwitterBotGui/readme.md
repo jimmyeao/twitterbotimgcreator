@@ -1,7 +1,3 @@
-Coming Soon..
-
-
-
 First Alpha!
 You need the 3 .ps1 files in the same directory, then run "TwitterBotCommander.ps1"
 You need to specify seperate source and destination folders
