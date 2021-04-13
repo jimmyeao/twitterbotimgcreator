@@ -17,6 +17,7 @@ $Form1 = New-Object -TypeName System.Windows.Forms.Form
 [System.Windows.Forms.Button]$btn_save = $null
 [System.Windows.Forms.Button]$btn_load = $null
 [System.Windows.Forms.Label]$lb_status = $null
+[System.Windows.Forms.Button]$btn_clear = $null
 function InitializeComponent
 {
 $btn_source = (New-Object -TypeName System.Windows.Forms.Button)
@@ -37,6 +38,7 @@ $tb_dest = (New-Object -TypeName System.Windows.Forms.TextBox)
 $btn_save = (New-Object -TypeName System.Windows.Forms.Button)
 $btn_load = (New-Object -TypeName System.Windows.Forms.Button)
 $lb_status = (New-Object -TypeName System.Windows.Forms.Label)
+$btn_clear = (New-Object -TypeName System.Windows.Forms.Button)
 ([System.ComponentModel.ISupportInitialize]$pb_main).BeginInit()
 $StatusStrip1.SuspendLayout()
 $Form1.SuspendLayout()
@@ -207,9 +209,21 @@ $lb_status.TabIndex = [System.Int32]17
 $lb_status.Text = [System.String]'Ready'
 $lb_status.UseCompatibleTextRendering = $true
 #
+#btn_clear
+#
+$btn_clear.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]347,[System.Int32]418))
+$btn_clear.Name = [System.String]'btn_clear'
+$btn_clear.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]145,[System.Int32]23))
+$btn_clear.TabIndex = [System.Int32]18
+$btn_clear.Text = [System.String]'Clear All'
+$btn_clear.UseCompatibleTextRendering = $true
+$btn_clear.UseVisualStyleBackColor = $true
+$btn_clear.add_Click($btn_clearme)
+#
 #Form1
 #
 $Form1.ClientSize = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]917,[System.Int32]569))
+$Form1.Controls.Add($btn_clear)
 $Form1.Controls.Add($lb_status)
 $Form1.Controls.Add($btn_load)
 $Form1.Controls.Add($btn_save)
@@ -252,5 +266,6 @@ Add-Member -InputObject $Form1 -Name tb_dest -Value $tb_dest -MemberType NotePro
 Add-Member -InputObject $Form1 -Name btn_save -Value $btn_save -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name btn_load -Value $btn_load -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name lb_status -Value $lb_status -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name btn_clear -Value $btn_clear -MemberType NoteProperty
 }
 . InitializeComponent

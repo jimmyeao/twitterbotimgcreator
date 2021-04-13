@@ -55,7 +55,7 @@ $myEncoder = [System.Drawing.Imaging.Encoder]::Quality
 $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
 $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter($myEncoder, $quality)
 # get codec
-$myImageCodecInfo = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders()|where {$_.MimeType -eq 'image/jpeg'}
+$myImageCodecInfo = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders()|Where-Object {$_.MimeType -eq 'image/jpeg'}
 
 #compute the final ratio to use
 $ratioX = $canvasWidth / $bmp.Width;
