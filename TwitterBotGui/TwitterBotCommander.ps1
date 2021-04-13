@@ -1,19 +1,44 @@
+$global:photodetails = @()
 $lb_Item_selected = {
 
     $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
     
     $pb_main.image = [System.Drawing.Image]::Fromfile($selected)
+    if($global:photodetails | where name -like $lb_loadedimages.selecteditem){
+        $tb_hashtags.text = ($global:photodetails | where name -like $lb_loadedimages.selecteditem).hashtags
+        $rt_text.Text = ($global:photodetails | where name -like $lb_loadedimages.selecteditem).text
+    }
     $Form1.Refresh()
     write-host  $selected
 }
 # This does NOTHING yet accept load the form
-cls
+
+
+Clear-Host
 $btn_gen = {
    
 }
 $app_toall = {
+    #$photodetails = @()
+    $global:photodetails.clear()
+    foreach($picture in $lb_loadedimages.items){
+        $item = New-Object PSObject
+        $item | Add-Member -type NoteProperty -name "Name" -value $picture
+        $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
+        $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
+        $global:photodetails += $item
+    }
+    
 }
 $app_to1 = {
+        if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
+            $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.hashtags = $tb_hashtags.Text}
+            $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.text = $rt_text.text}
+            $global:photodetails | out-gridview
+            }
+            else{
+
+        }
 }
 $sel_dest = {
     $result = Find-Folders
@@ -26,6 +51,16 @@ $sel_source = {
     foreach($photo in $photos){
         $lb_loadedimages.items.add($photo)
     }
+    #lets create an array to hold details on a per photo basis..
+    $global:photodetails.clear()
+    foreach($picture in $lb_loadedimages.items){
+        $item = New-Object PSObject
+        $item | Add-Member -type NoteProperty -name "Name" -value $picture
+        $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
+        $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
+        $global:photodetails += $item
+    }
+    
 }
 $save_details = {
     $FileBrowser = New-Object System.Windows.Forms.SaveFileDialog -Property @{ 
@@ -39,10 +74,23 @@ $save_details = {
             $XmlWriter.Indentation = 1
             $XmlWriter.IndentChar ="`t"
             $XmlWriter.WriteStartElement("Settings")
-            $XmlWriter.WriteElementString("Hashtags",$tb_hashtags.text)
-            $XmlWriter.WriteElementString("text",$rt_text.text)
-            $XmlWriter.WriteElementString("source",$tb_source.text)
-            $XmlWriter.WriteElementString("dest",$tb_dest.text)
+            $XmlWriter.WriteAttributeString("Hashtags",$tb_hashtags.text)
+            $XmlWriter.WriteAttributeString("text",$rt_text.text)
+            $XmlWriter.WriteAttributeString("source",$tb_source.text)
+            $XmlWriter.WriteAttributeString("dest",$tb_dest.text)
+            
+            foreach($pic in $global:photodetails){
+            if($null -ne $pic)
+            {
+                $XmlWriter.WriteStartElement("Photos")
+                $XmlWriter.WriteAttributeString("name",$pic.name)
+                $XmlWriter.WriteAttributeString("hashtags",$pic.hashtags)
+                $XmlWriter.WriteAttributeString("text",$pic.text)
+                $XmlWriter.WriteEndElement()
+              }
+              
+        }
+            
             $XmlWriter.WriteEndElement()
             #$xmlWriter.WriteEndDocument()
             $XmlWriter.Flush()
@@ -66,12 +114,33 @@ $load_details = {
     $rt_text.AppendText($ConfigFile.settings.text)
     $tb_source.text = $ConfigFile.settings.source
     $tb_dest.text = $ConfigFile.settings.dest
+    #$tags = $ConfigFile.settings.photos
     $form1.Refresh()
     if($tb_source.text){
         $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
         foreach($photo in $photos){
             $lb_loadedimages.items.add($photo)
+            $global:photodetails.clear()
+    foreach($picture in $lb_loadedimages.items){
+            $item = New-Object PSObject
+            $item | Add-Member -type NoteProperty -name "Name" -value $picture
+            $item | Add-Member -type NoteProperty -name "Hashtags" -value $tb_hashtags.Text
+            $item | Add-Member -type NoteProperty -name "text" -value $rt_text.Text
+            $global:photodetails += $item
+            }
         }
+    }
+    $global:photodetails.clear()
+    $piccy=@()
+    $piccy = $configfile.settings.photos
+    foreach($piccy in $configfile.settings.photos){
+        write-host $piccy
+        $item = New-Object PSObject
+        $item | Add-Member -type NoteProperty -name "Name" -value $piccy.name
+        $item | Add-Member -type NoteProperty -name "Hashtags" -value $piccy.hashtags
+        $item | Add-Member -type NoteProperty -name "text" -value $piccy.text
+        $global:photodetails += $item
+        
     }
 
     }
