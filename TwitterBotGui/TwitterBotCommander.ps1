@@ -1,10 +1,16 @@
+
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
-Jimmy White 2021
+Jimmy White 2021 V0.0.2
 
 #>
+Add-Type -AssemblyName PresentationCore,PresentationFramework
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 $global:photodetails = @()
+Clear-Host
 $lb_Item_selected = {
 
     $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
@@ -20,9 +26,23 @@ $lb_Item_selected = {
     write-host  $selected
 }
 
+$btn_clearme = {
+    $ButtonType = [System.Windows.MessageBoxButton]::YesNo
+    $MessageIcon = [System.Windows.MessageBoxImage]::Error
+    $MessageBody = "Are you sure you want to clear the form?"
+    $MessageTitle = "Confirm"
+    $ans = [System.Windows.MessageBox]::Show($MessageBody,$MessageTitle,4,16)
+        if($ans -eq "yes"){
+            $tb_dest.text = ""
+            $tb_source.text = ""
+            $tb_hashtags.text = ""
+            $rt_text.clear()
+            $lb_loadedimages.items.clear()
+            $pb_main.Image=$null
+        }
+}
 
 
-Clear-Host
 $btn_gen = {
    #lets check we have a valid path
    #first part of images.js
@@ -175,43 +195,57 @@ $save_details = {
 
  
 $load_details = {
-    $curpath = get-location
-    $filebrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
-        InitialDirectory = $curpath
-        Filter = 'Documents (*.xml)|*.xml'
+    $ans="yes"
+    if($tb_source.text -ne ""){
+
+        $ButtonType = [System.Windows.MessageBoxButton]::YesNo
+        $MessageIcon = [System.Windows.MessageBoxImage]::Error
+        $MessageBody = "Are you sure this will clearcurrent work?"
+        $MessageTitle = "Confirm"
+        $ans = [System.Windows.MessageBox]::Show($MessageBody,$MessageTitle,4,16)
+
     }
-    $null = $filebrowser.ShowDialog()
-    [xml]$ConfigFile = Get-Content $filebrowser.filename
-    $tb_hashtags.text=$ConfigFile.settings.Hashtags
-    $rt_text.Clear()
-    $rt_text.AppendText($ConfigFile.settings.text)
-    $tb_source.text = $ConfigFile.settings.source
-    $tb_dest.text = $ConfigFile.settings.dest
-    #$tags = $ConfigFile.settings.photos
-    $form1.Refresh()
-    if($tb_source.text){
-        $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
-        foreach($photo in $photos){
-            $lb_loadedimages.items.add($photo)
-            $global:photodetails.clear()
+    If($ans -eq "Yes"){
+        $tb_dest.text = ""
+        $tb_source.text = ""
+        $tb_hashtags.text = ""
+        $rt_text.clear()
+        $pb_main.Image=$null
+        $lb_loadedimages.items.clear()
+        $curpath = get-location
+        $filebrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
+            InitialDirectory = $curpath
+            Filter = 'Documents (*.xml)|*.xml'
         }
-    }
-
-    
-    
-    $global:photodetails.clear()
-    $piccy=@()
-    $piccy = $configfile.settings.photos
-    foreach($piccy in $configfile.settings.photos){
-        write-host $piccy
-        $item = New-Object PSObject
-        $item | Add-Member -type NoteProperty -name "Name" -value $piccy.name
-        $item | Add-Member -type NoteProperty -name "Hashtags" -value $piccy.hashtags
-        $item | Add-Member -type NoteProperty -name "text" -value $piccy.text
-        $global:photodetails += $item
+        $null = $filebrowser.ShowDialog()
+        [xml]$ConfigFile = Get-Content $filebrowser.filename
+        $tb_hashtags.text=$ConfigFile.settings.Hashtags
+        $rt_text.Clear()
+        $rt_text.AppendText($ConfigFile.settings.text)
+        $tb_source.text = $ConfigFile.settings.source
+        $tb_dest.text = $ConfigFile.settings.dest
+        #$tags = $ConfigFile.settings.photos
+        $form1.Refresh()
+        if($tb_source.text){
+            $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
+            foreach($photo in $photos){
+                $lb_loadedimages.items.add($photo)
+                $global:photodetails.clear()
+            }
+        }
+        $global:photodetails.clear()
+        $piccy=@()
+        $piccy = $configfile.settings.photos
+        foreach($piccy in $configfile.settings.photos){
+            write-host $piccy
+            $item = New-Object PSObject
+            $item | Add-Member -type NoteProperty -name "Name" -value $piccy.name
+            $item | Add-Member -type NoteProperty -name "Hashtags" -value $piccy.hashtags
+            $item | Add-Member -type NoteProperty -name "text" -value $piccy.text
+            $global:photodetails += $item
         
-    }
-
+            }
+        }
 }
 function Find-Folders {
     [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
@@ -281,6 +315,6 @@ function Resize-images{
     $bmp.Dispose()
     }
 
-Add-Type -AssemblyName System.Windows.Forms
+
 . (Join-Path $PSScriptRoot 'twitterbotcommander.designer.ps1')
 $Form1.ShowDialog()
