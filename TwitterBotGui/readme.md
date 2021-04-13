@@ -3,7 +3,7 @@ You need the 3 .ps1 files in the same directory, then run "TwitterBotCommander.p
 You need to specify seperate source and destination folders
 Images are resized and renamed (to remove spaces) when you click "generate"
 The output folder will contain all your resized images and an image.js file to use with the twitter bot app.
-You can apply tahs and text on a per image basis, or to all images
+You can apply tags and text on a per image basis, or to all images
 Tags and settings can be saved / loaded
 
 I welcome ideas, feedback, bugs etc.
