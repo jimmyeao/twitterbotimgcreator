@@ -1,3 +1,9 @@
+<#
+This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
+
+Jimmy White 2021 - Licenced for Non-Commercial use only.
+
+#>
 $global:photodetails = @()
 $lb_Item_selected = {
 
@@ -13,12 +19,40 @@ $lb_Item_selected = {
     $Form1.Refresh()
     write-host  $selected
 }
-# This does NOTHING yet accept load the form
+
 
 
 Clear-Host
 $btn_gen = {
+   #lets check we have a valid path
+   #first part of images.js
    
+   if(test-path $tb_dest.text -eq $true){
+        #we have a valid path, we continue...
+        $line=@()
+        $line += "const images = ["
+        $numimages = $photodetails.count
+        $strt = 1
+        #now we cycle through..
+        foreach ($item in $photodetails) {
+            $line += "  {"
+            $line += "      file: '$image',"
+            $line += "      source: '$htags $sourcecredit'"
+            if($strt -ne $numimages){
+                $line += "  },"
+            }else {
+                $line += "  }"
+            }
+            $strt++
+        }
+        $line += "];"
+        $line += "module.exports = images;"
+
+        $line | Out-File $tb_dest.text -Encoding UTF8
+   }
+   else {
+       return
+   }
 }
 $app_toall = {
     #$photodetails = @()
