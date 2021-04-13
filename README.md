@@ -5,5 +5,9 @@ This script will prompt you for a directory with your images in, then prompt you
 It will then parse the directory of images and create a images.js file for use with the twitter bot script
 Twitter bot code can be found here https://gist.github.com/fourtonfish/58005106e1507369bbf0ed5f3e69b952
 
+<<<<<<< HEAD
 If you like this, please support me on Patreon: https://www.patreon.com/deviousweb
 
+=======
+The TwitterBot GUI folder conatins a GUI based application (writeen in powershell!)
+>>>>>>> e3efd5a3de8b0db5a3958feedd1232edb6eb2e44
