@@ -29,6 +29,8 @@ $picclicked = {
     $proc = Start-Process ($tb_source + "\" + $lb_loadedimages.selecteditem) -PassThru;
 }
 
+
+
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
@@ -45,7 +47,11 @@ $lb_Item_selected = {
 
     $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
     
-    $pb_main.image = [System.Drawing.Image]::Fromfile($selected)
+    #$pb_main.image = [System.Drawing.Image]::Fromfile($selected)
+    $imagetoshow = [System.Drawing.Image]::Fromfile($selected)
+
+    $pb_main.image = $imagetoshow
+    
     if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
         $tb_hashtags.text=""
         $rt_text.Clear()

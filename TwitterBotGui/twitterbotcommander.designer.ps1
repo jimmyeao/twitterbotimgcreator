@@ -92,8 +92,8 @@ $btn_dest.add_Click($sel_dest)
 $pb_main.BorderStyle = [System.Windows.Forms.BorderStyle]::Fixed3D
 $pb_main.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]508,[System.Int32]27))
 $pb_main.Name = [System.String]'pb_main'
-$pb_main.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]397,[System.Int32]193))
-$pb_main.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
+$pb_main.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]397,[System.Int32]215))
+$pb_main.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 $pb_main.TabIndex = [System.Int32]2
 $pb_main.TabStop = $false
 $pb_main.add_Click($picclicked)
