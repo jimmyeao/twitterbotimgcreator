@@ -72,6 +72,7 @@ $btn_clearme = {
             $tb_source.text = ""
             $tb_hashtags.text = ""
             $rt_text.clear()
+            $tagbox.items.clear()
             $lb_loadedimages.items.clear()
             $pb_main.Image=$null
         }
