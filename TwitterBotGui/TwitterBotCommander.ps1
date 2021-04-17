@@ -1,3 +1,33 @@
+$PictureBox1_Click = {
+}
+$selcteditem = {
+    $global:selectedtag = $tagbox.SelectedItem
+    $lb_status.text = $global:selectedtag
+}
+$tabbox_clicked = {
+    #which item was clicked?
+
+    if ($_.ClickedItem.text -eq "Add to Hashtag"){
+        write-host "Got here - add to hashtag"
+        $tagtocopy = $tagbox.SelectedItem
+        write-host Copying $global:selectedtag
+        $tb_hashtags.text += (" " + $global:selectedtag)
+        $form1.refresh()
+    }
+
+    if ($_.ClickedItem.text -eq "Remove From Favourites"){
+        write-host "Got here - remove hashtag"
+        $tagbox.Items.Remove($tagbox.SelectedItem)
+    }
+}
+$item_clicked = {
+
+    $selectedtext = $tb_hashtags.SelectedText
+    $tagbox.Items.Add($selectedtext)
+}
+$picclicked = {
+    $proc = Start-Process ($tb_source + "\" + $lb_loadedimages.selecteditem) -PassThru;
+}
 
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
@@ -178,8 +208,16 @@ $save_details = {
                 $XmlWriter.WriteAttributeString("text",$pic.text)
                 $XmlWriter.WriteEndElement()
               }
+
               
         }
+        foreach($myitem in $tagbox.Items){
+            if($null -ne $myitem){
+                $XmlWriter.WriteStartElement("Tags")
+                $XmlWriter.WriteAttributeString("Hashtag",$myitem)
+                $XmlWriter.WriteEndElement()
+                }
+            }
             
             $XmlWriter.WriteEndElement()
             #$xmlWriter.WriteEndDocument()
@@ -206,6 +244,7 @@ $load_details = {
         $rt_text.clear()
         $pb_main.Image=$null
         $lb_loadedimages.items.clear()
+        $tagbox.items.clear()
         $curpath = get-location
         $filebrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ 
             InitialDirectory = $curpath
@@ -239,7 +278,12 @@ $load_details = {
             $global:photodetails += $item
         
             }
+        foreach($htag in $configfile.settings.tags){
+            $tagbox.Items.add($htag.hashtag)
         }
+        }
+        
+                    $lb_loadedimages.SetSelected(0,$true)
 }
 function Find-Folders {
     [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
