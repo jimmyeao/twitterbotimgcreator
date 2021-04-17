@@ -1,4 +1,6 @@
-First Alpha!
+Second Alpha!
+Added a function to maintain a list of favourite hashtags and easily use right click to copy.
+
 You need the 3 .ps1 files in the same directory, then run "TwitterBotCommander.ps1"
 
 You need to specify seperate source and destination folders
@@ -15,5 +17,6 @@ I welcome ideas, feedback, bugs etc.
 
 If you like this, please support me on Patreon: https://www.patreon.com/deviousweb
 
-![image](https://user-images.githubusercontent.com/5197831/114541458-aa17ca00-9c4e-11eb-8e9d-63a39ffbe2cc.png)
+![image](https://user-images.githubusercontent.com/5197831/115120458-90a3b480-9fa5-11eb-9f30-20dd5af3ea38.png)
+
 
