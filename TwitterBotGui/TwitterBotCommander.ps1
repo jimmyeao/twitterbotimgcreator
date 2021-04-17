@@ -1,5 +1,10 @@
-$PictureBox1_Click = {
-}
+<#
+This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
+thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
+Jimmy White 2021 V0.0.2
+
+#>
+
 $selcteditem = {
     $global:selectedtag = $tagbox.SelectedItem
     $lb_status.text = $global:selectedtag
@@ -26,17 +31,12 @@ $item_clicked = {
     $tagbox.Items.Add($selectedtext)
 }
 $picclicked = {
-    $proc = Start-Process ($tb_source + "\" + $lb_loadedimages.selecteditem) -PassThru;
+    Start-Process ($tb_source.text + "\" + $lb_loadedimages.selecteditem) -PassThru;
 }
 
 
 
-<#
-This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
-thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
-Jimmy White 2021 V0.0.2
 
-#>
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
