@@ -2,9 +2,12 @@
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
-Jimmy White 2021 V0.0.2
+Jimmy White 2021 V0.4a
 
 #>
+Add-Type -AssemblyName PresentationCore,PresentationFramework
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
 
 $applytexttoimage = {
     if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
@@ -67,9 +70,7 @@ $picclicked = {
 
 
 
-Add-Type -AssemblyName PresentationCore,PresentationFramework
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
+
 
 $global:photodetails = @()
 Clear-Host
