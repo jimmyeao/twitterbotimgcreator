@@ -1,6 +1,4 @@
-$deviousclick = {
-    start-process "https://www.deviousweb.com"
-}
+
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
@@ -8,6 +6,32 @@ Jimmy White 2021 V0.0.2
 
 #>
 
+$applytexttoimage = {
+    if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
+        $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.text = $rt_text.Text}
+        $lb_status.text = "Text Applied to " + $lb_loadedimages.selecteditem + "!..."
+        $form1.refresh()
+        }
+}
+
+$applytagtoimage = {
+    if($global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem){
+        $global:photodetails | Where-Object name -like $lb_loadedimages.selecteditem | foreach-object {$_.hashtags = $tb_hashtags.text}
+        $lb_status.text = "Tags Applied to " + $lb_loadedimages.selecteditem + "!..."
+        $form1.refresh()
+        }
+}
+$deviousclick = {
+    start-process "https://www.deviousweb.com"
+}
+$applytexttoall = {
+    $global:photodetails | foreach-object({$_.text = $rt_text.text})
+    $lb_status.text = "Text applied to all"
+}
+$applytagtoall = {
+    $global:photodetails | foreach-object({$_.hashtags = $tb_hashtags.text})
+    $lb_status.text = "Tags applied to all"
+}
 $selcteditem = {
     $global:selectedtag = $tagbox.SelectedItems
     $lb_status.text = $global:selectedtag
@@ -86,8 +110,11 @@ $btn_clearme = {
 $btn_gen = {
    #lets check we have a valid path
    #first part of images.js
-   
-   if((test-path $tb_dest.text) -eq $true){
+    try{
+    $validpath = test-path $tb_dest.text -ErrorAction SilentlyContinue
+    } catch
+    {$validpath = $false}
+   if($validpath -ne $false){
         #we have a valid path, we continue...
         #Lets move and rename the files...
        ################################################################### 
@@ -136,11 +163,12 @@ $btn_gen = {
         $lb_status.text = "All Done!..."
    }
    else {
+    [System.Windows.MessageBox]::Show('Ouput folder invalid','Output Folder Error','OK','Error')
        return
    }
 }
 $app_toall = {
-    #$photodetails = @()
+
     $global:photodetails.clear()
     foreach($picture in $lb_loadedimages.items){
         $item = New-Object PSObject

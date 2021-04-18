@@ -27,6 +27,10 @@ $Form1 = New-Object -TypeName System.Windows.Forms.Form
 [System.Windows.Forms.ToolStripMenuItem]$ToolStripMenuItem2 = $null
 [System.Windows.Forms.ToolStripMenuItem]$ToolStripMenuItem3 = $null
 [System.Windows.Forms.PictureBox]$PictureBox1 = $null
+[System.Windows.Forms.Button]$Button1 = $null
+[System.Windows.Forms.Button]$Button2 = $null
+[System.Windows.Forms.Button]$button3 = $null
+[System.Windows.Forms.Button]$Button4 = $null
 function InitializeComponent
 {
 $components = (New-Object -TypeName System.ComponentModel.Container)
@@ -58,6 +62,10 @@ $ContextMenuStrip2 = (New-Object -TypeName System.Windows.Forms.ContextMenuStrip
 $ToolStripMenuItem2 = (New-Object -TypeName System.Windows.Forms.ToolStripMenuItem)
 $ToolStripMenuItem3 = (New-Object -TypeName System.Windows.Forms.ToolStripMenuItem)
 $PictureBox1 = (New-Object -TypeName System.Windows.Forms.PictureBox)
+$Button1 = (New-Object -TypeName System.Windows.Forms.Button)
+$Button2 = (New-Object -TypeName System.Windows.Forms.Button)
+$button3 = (New-Object -TypeName System.Windows.Forms.Button)
+$Button4 = (New-Object -TypeName System.Windows.Forms.Button)
 ([System.ComponentModel.ISupportInitialize]$pb_main).BeginInit()
 $ContextMenuStrip1.SuspendLayout()
 $StatusStrip1.SuspendLayout()
@@ -162,7 +170,7 @@ $btn_applyto1.Location = (New-Object -TypeName System.Drawing.Point -ArgumentLis
 $btn_applyto1.Name = [System.String]'btn_applyto1'
 $btn_applyto1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]156,[System.Int32]23))
 $btn_applyto1.TabIndex = [System.Int32]8
-$btn_applyto1.Text = [System.String]'Apply to 1'
+$btn_applyto1.Text = [System.String]'Apply both to 1'
 $btn_applyto1.UseCompatibleTextRendering = $true
 $btn_applyto1.UseVisualStyleBackColor = $true
 $btn_applyto1.add_Click($app_to1)
@@ -173,7 +181,7 @@ $btn_applytoall.Location = (New-Object -TypeName System.Drawing.Point -ArgumentL
 $btn_applytoall.Name = [System.String]'btn_applytoall'
 $btn_applytoall.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]147,[System.Int32]23))
 $btn_applytoall.TabIndex = [System.Int32]9
-$btn_applytoall.Text = [System.String]'Apply to all'
+$btn_applytoall.Text = [System.String]'Apply both to all'
 $btn_applytoall.UseCompatibleTextRendering = $true
 $btn_applytoall.UseVisualStyleBackColor = $true
 $btn_applytoall.add_Click($app_toall)
@@ -313,9 +321,57 @@ $PictureBox1.TabIndex = [System.Int32]21
 $PictureBox1.TabStop = $false
 $PictureBox1.add_Click($deviousclick)
 #
+#Button1
+#
+$Button1.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]196,[System.Int32]134))
+$Button1.Name = [System.String]'Button1'
+$Button1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]123,[System.Int32]23))
+$Button1.TabIndex = [System.Int32]22
+$Button1.Text = [System.String]'Apply To Image'
+$Button1.UseCompatibleTextRendering = $true
+$Button1.UseVisualStyleBackColor = $true
+$Button1.add_Click($applytagtoimage)
+#
+#Button2
+#
+$Button2.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]347,[System.Int32]134))
+$Button2.Name = [System.String]'Button2'
+$Button2.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]131,[System.Int32]23))
+$Button2.TabIndex = [System.Int32]23
+$Button2.Text = [System.String]'Apply to All'
+$Button2.UseCompatibleTextRendering = $true
+$Button2.UseVisualStyleBackColor = $true
+$Button2.add_Click($applytagtoall)
+#
+#button3
+#
+$button3.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]196,[System.Int32]193))
+$button3.Name = [System.String]'button3'
+$button3.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]123,[System.Int32]23))
+$button3.TabIndex = [System.Int32]24
+$button3.Text = [System.String]'Apply to Image'
+$button3.UseCompatibleTextRendering = $true
+$button3.UseVisualStyleBackColor = $true
+$button3.add_Click($applytexttoimage)
+#
+#Button4
+#
+$Button4.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]347,[System.Int32]193))
+$Button4.Name = [System.String]'Button4'
+$Button4.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]132,[System.Int32]23))
+$Button4.TabIndex = [System.Int32]25
+$Button4.Text = [System.String]'Apply to All'
+$Button4.UseCompatibleTextRendering = $true
+$Button4.UseVisualStyleBackColor = $true
+$Button4.add_Click($applytexttoall)
+#
 #Form1
 #
 $Form1.ClientSize = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]1141,[System.Int32]569))
+$Form1.Controls.Add($Button4)
+$Form1.Controls.Add($button3)
+$Form1.Controls.Add($Button2)
+$Form1.Controls.Add($Button1)
 $Form1.Controls.Add($PictureBox1)
 $Form1.Controls.Add($tagbox)
 $Form1.Controls.Add($SavedTags)
@@ -375,5 +431,9 @@ Add-Member -InputObject $Form1 -Name ContextMenuStrip2 -Value $ContextMenuStrip2
 Add-Member -InputObject $Form1 -Name ToolStripMenuItem2 -Value $ToolStripMenuItem2 -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name ToolStripMenuItem3 -Value $ToolStripMenuItem3 -MemberType NoteProperty
 Add-Member -InputObject $Form1 -Name PictureBox1 -Value $PictureBox1 -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name Button1 -Value $Button1 -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name Button2 -Value $Button2 -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name button3 -Value $button3 -MemberType NoteProperty
+Add-Member -InputObject $Form1 -Name Button4 -Value $Button4 -MemberType NoteProperty
 }
 . InitializeComponent
