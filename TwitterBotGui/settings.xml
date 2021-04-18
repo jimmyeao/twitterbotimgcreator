@@ -1,6 +1,5 @@
-<Settings>
-	<Hashtags>#photos #photography #landscapes</Hashtags>
-	<text>Visit my blog at https://www.digitalfix.org</text>
-	<source>D:\OneDrive\Desktop\images</source>
-	<dest>D:\OneDrive\Desktop\images\twitterbot images</dest>
+<Settings Hashtags="#photography" text="Please RT and follow me for more! https://www.digitalfix.org" source="C:\Users\" dest="C:\Users\outfiles">
+
+	<Tags Hashtag="#edinburgh" />
+	<Tags Hashtag="#london" />
 </Settings>

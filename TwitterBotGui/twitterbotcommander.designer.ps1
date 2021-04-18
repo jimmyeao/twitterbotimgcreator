@@ -308,7 +308,7 @@ $PictureBox1.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([S
 $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
 $PictureBox1.TabIndex = [System.Int32]21
 $PictureBox1.TabStop = $false
-$PictureBox1.add_Click($PictureBox1_Click)
+$PictureBox1.add_Click($deviousclick)
 #
 #Form1
 #

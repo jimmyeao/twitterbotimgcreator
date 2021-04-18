@@ -1,3 +1,6 @@
+$deviousclick = {
+    start-process "https://www.deviousweb.com"
+}
 <#
 This script creates a GUI form for managing tag and text for photos for upload to twitter (currently a seperate application)
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
@@ -31,7 +34,10 @@ $item_clicked = {
     $tagbox.Items.Add($selectedtext)
 }
 $picclicked = {
-    Start-Process ($tb_source.text + "\" + $lb_loadedimages.selecteditem) -PassThru;
+    if(!($tb_source.text.Length -le 1)){
+        $imagetoload = ($tb_source.text + "\" + $lb_loadedimages.selecteditem)
+    $picresult = Start-Process $imagetoload -PassThru -ErrorAction SilentlyContinue
+    }
 }
 
 
