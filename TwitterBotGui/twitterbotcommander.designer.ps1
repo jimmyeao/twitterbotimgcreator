@@ -110,6 +110,7 @@ $lb_loadedimages.add_SelectedIndexChanged($lb_Item_selected)
 #
 #tb_hashtags
 #
+$tb_hashtags.AllowDrop = $true
 $tb_hashtags.ContextMenuStrip = $ContextMenuStrip1
 $tb_hashtags.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]32,[System.Int32]163))
 $tb_hashtags.Name = [System.String]'tb_hashtags'
@@ -269,11 +270,13 @@ $SavedTags.UseCompatibleTextRendering = $true
 #
 #tagbox
 #
+$tagbox.AllowDrop = $true
 $tagbox.ContextMenuStrip = $ContextMenuStrip2
 $tagbox.FormattingEnabled = $true
 $tagbox.ItemHeight = [System.Int32]17
 $tagbox.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]926,[System.Int32]92))
 $tagbox.Name = [System.String]'tagbox'
+$tagbox.SelectionMode = [System.Windows.Forms.SelectionMode]::MultiExtended
 $tagbox.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]192,[System.Int32]412))
 $tagbox.TabIndex = [System.Int32]20
 $tagbox.add_Click($selcteditem)

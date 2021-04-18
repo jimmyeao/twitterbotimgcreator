@@ -9,18 +9,18 @@ Jimmy White 2021 V0.0.2
 #>
 
 $selcteditem = {
-    $global:selectedtag = $tagbox.SelectedItem
+    $global:selectedtag = $tagbox.SelectedItems
     $lb_status.text = $global:selectedtag
 }
 $tabbox_clicked = {
     #which item was clicked?
 
     if ($_.ClickedItem.text -eq "Add to Hashtag"){
-        write-host "Got here - add to hashtag"
-        $tagtocopy = $tagbox.SelectedItem
-        write-host Copying $global:selectedtag
-        $tb_hashtags.text += (" " + $global:selectedtag)
+        foreach($selecetedtag in $tagbox.SelectedItems){
+        $tagtocopy = $selecetedtag
+        $tb_hashtags.text += (" " + $tagtocopy)
         $form1.refresh()
+        }
     }
 
     if ($_.ClickedItem.text -eq "Remove From Favourites"){
