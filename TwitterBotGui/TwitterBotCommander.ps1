@@ -4,6 +4,8 @@ This script creates a GUI form for managing tag and text for photos for upload t
 thanks to https://www.benoitpatra.com/2014/09/14/resize-image-and-preserve-ratio-with-powershell/ for the script to resize images
 Jimmy White 2021 V0.4a
 
+~to fix - doesnt handle additioanl images being added to a pre existing folder for which you have saved settings
+
 #>
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
