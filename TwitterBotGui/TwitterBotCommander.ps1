@@ -7,6 +7,8 @@ Jimmy White 2021 V0.4a
 ~to fix - doesnt handle additioanl images being added to a pre existing folder for which you have saved settings
 
 #>
+$global:photodetails = @()
+Clear-Host
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -68,14 +70,6 @@ $picclicked = {
     $picresult = Start-Process $imagetoload -PassThru -ErrorAction SilentlyContinue
     }
 }
-
-
-
-
-
-
-$global:photodetails = @()
-Clear-Host
 $lb_Item_selected = {
 
     $selected = $tb_source.text+"\"+$lb_loadedimages.selecteditem
@@ -250,6 +244,7 @@ $save_details = {
                 $XmlWriter.WriteAttributeString("name",$pic.name)
                 $XmlWriter.WriteAttributeString("hashtags",$pic.hashtags)
                 $XmlWriter.WriteAttributeString("text",$pic.text)
+                $XmlWriter.WriteAttributeString("path",$tb_source.text+"/"+$pic.text)
                 $XmlWriter.WriteEndElement()
               }
 
@@ -319,12 +314,30 @@ $load_details = {
             $item | Add-Member -type NoteProperty -name "Name" -value $piccy.name
             $item | Add-Member -type NoteProperty -name "Hashtags" -value $piccy.hashtags
             $item | Add-Member -type NoteProperty -name "text" -value $piccy.text
+            $item | Add-Member -type NoteProperty -name "path" -Value $piccy.path
             $global:photodetails += $item
         
             }
-        foreach($htag in $configfile.settings.tags){
+            foreach($htag in $configfile.settings.tags){
             $tagbox.Items.add($htag.hashtag)
+            }
         }
+        #any new pictures?
+        if($tb_source.text){
+            $photos = Get-childitem -path $tb_source.text -Include *.jpg -name
+            foreach($photo in $photos){
+                #lets see if its in our list..
+                if(!($photodetails.name -contains $photo)){
+                     #then add it to the list...
+                     $item = New-Object PSObject
+                     $item | Add-Member -type NoteProperty -name "Name" -value $photo
+                     $item | Add-Member -type NoteProperty -name "Hashtags" -value ""
+                     $item | Add-Member -type NoteProperty -name "text" -value ""
+                     $item | Add-Member -type NoteProperty -name "path" -Value ($tb_source.text+"\"+$photo)
+                     $global:photodetails += $item
+                }
+               
+            }
         }
         
                     $lb_loadedimages.SetSelected(0,$true)
