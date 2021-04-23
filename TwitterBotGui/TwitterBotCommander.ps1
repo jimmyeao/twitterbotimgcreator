@@ -244,7 +244,7 @@ $save_details = {
                 $XmlWriter.WriteAttributeString("name",$pic.name)
                 $XmlWriter.WriteAttributeString("hashtags",$pic.hashtags)
                 $XmlWriter.WriteAttributeString("text",$pic.text)
-                $XmlWriter.WriteAttributeString("path",$tb_source.text+"/"+$pic.text)
+                $XmlWriter.WriteAttributeString("path",$tb_source.text+"/"+$pic.name)
                 $XmlWriter.WriteEndElement()
               }
 
